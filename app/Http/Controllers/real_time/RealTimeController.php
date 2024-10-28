@@ -12,6 +12,6 @@ class RealTimeController extends Controller
      */
     public function sendMessage(Request $request)
     {
-        $
+
     }
 }

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Helpers\Helpers;
-use App\Helpers\MyException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
