@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Helpers\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Validation\UnauthorizedException;
 
 use App\Models\User;
@@ -35,14 +36,18 @@ class UserController extends Controller
                 throw new UnauthorizedException('Invalid username or password');
             }
 
-            $User = Auth::user();
+            // $User = User::where(['username' => $data['username']])->first();
+            $UserID = Auth::user()->id;
+            $User = User::findOrFail($UserID);
+            $User->access_token = Str::random(50);
+            $User->save();
 
             return response()->json([
                 'message' => 'Login Successful',
                 'user' => $User
             ]);
         } catch(\Exception $error) {
-            return Helpers::ErrorException($error, 401);
+            return Helpers::ErrorException($error->getMessage(), 401);
         }
     }
 
@@ -63,10 +68,10 @@ class UserController extends Controller
 
             return response()->json([
                 'message' => 'Success',
-                'data' => $User->id
+                'data' => $User
             ]);
         } catch(\Exception $error) {
-            return Helpers::ErrorException($error, 500);
+            return Helpers::ErrorException($error->getMessage(), 500);
         }
     }
 

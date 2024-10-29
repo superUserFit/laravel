@@ -6,9 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 
 class Helpers {
-    public static function ErrorException(\Exception $error, int $statusCode) {
+    public static function ErrorException($message, int $statusCode) {
+        $error = '';
+        switch($statusCode) {
+            case 400:
+                $error = 'Bad Request';
+                break;
+            case 401:
+                $error = 'Unauthorized';
+                break;
+            default:
+                $error = 'Internal Error';
+        }
+
         return response()->json([
-            'message' => $error->getMessage()
+            'code' => $statusCode,
+            'name' => $error,
+            'message' => $message
         ], $statusCode);
     }
 
