@@ -15,6 +15,8 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $authorizationHeader = $request->header();
+
         return $next($request);
     }
 }
