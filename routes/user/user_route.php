@@ -11,4 +11,5 @@ Route::post('/login', [UserController::class, 'login'])->withoutMiddleware('auth
 
 Route::middleware('auth.my_middleware')->prefix('user')->group(function() {
     Route::get('/', [UserController::class, 'index']);
+    Route::get('/show/{id}', [UserController::class, 'show']);
 });

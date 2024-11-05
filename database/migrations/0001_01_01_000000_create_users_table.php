@@ -24,8 +24,8 @@ return new class extends Migration
             $table->uuid('updated_by')->nullable();
             $table->timestamps();
 
-            $table->foreign('created_by')->references('id')->on('users');
-            $table->foreign('updated_by')->references('id')->on('users');
+            // $table->foreign('created_by')->references('id')->on('users');
+            // $table->foreign('updated_by')->references('id')->on('users');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

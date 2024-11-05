@@ -15,6 +15,9 @@ class Helpers {
             case 401:
                 $error = 'Unauthorized';
                 break;
+            case 404:
+                $error = 'Not Found';
+                break;
             default:
                 $error = 'Internal Error';
         }

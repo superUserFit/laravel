@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,9 +31,11 @@ class AuthMiddleware
 
         $User = User::where(['username' => $username])->first();
 
-        if(!empty($User) || $User->access_token != $access_token) {
+        if(empty($User) || $User->access_token !== $access_token) {
             return Helpers::ErrorException('Unauthorized user', 401);
         }
+
+        Auth::login($User);
 
         return $next($request);
     }

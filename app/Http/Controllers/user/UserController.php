@@ -19,9 +19,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        $Users = User::all()->toArray();
+        try {
+            $Users = User::all();
 
-        return response()->json($Users);
+            foreach($Users as &$User) {
+                unset($User['access_token']);
+            }
+
+            return response()->json([
+                'total' => count($Users),
+                'rows' => $Users
+            ], 200);
+        } catch(\Exception $error) {
+            return Helpers::ErrorException($error->getMessage(), 400);
+        }
     }
 
     public function login(Request $request)
@@ -41,6 +52,8 @@ class UserController extends Controller
             $User = User::findOrFail($UserID);
             $User->access_token = Str::random(50);
             $User->save();
+
+            Auth::login($User);
 
             return response()->json([
                 'message' => 'Login Successful',
@@ -86,9 +99,15 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($id)
     {
-        //
+        try {
+            $User = User::where(['id' => $id])->first();
+
+            return response()->json($User);
+        } catch(\Exception $error) {
+            return Helpers::ErrorException($error->getMessage(), 400);
+        }
     }
 
     /**
