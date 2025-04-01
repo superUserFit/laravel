@@ -2,12 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Helpers\Helpers;
-use App\Models\User;
 use Closure;
+
+use App\Helpers\Helpers;
+use App\Domains\User\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthMiddleware
@@ -31,8 +32,8 @@ class AuthMiddleware
 
         $User = User::where(['username' => $username])->first();
 
-        if(empty($User) || $User->validateAccessToken($access_token)) {
-            return Helpers::ErrorException('Unauthorized user', 401);
+        if(empty($User) || !$User->validateAccessToken($access_token)) {
+            throw new UnauthorizedException('Session expired', 401);
         }
 
         Auth::login($User);

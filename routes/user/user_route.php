@@ -10,6 +10,6 @@ Route::post('/register', [UserController::class, 'register'])->withoutMiddleware
 Route::post('/login', [UserController::class, 'login'])->withoutMiddleware('auth.my_middleware');
 
 Route::middleware('auth.my_middleware')->prefix('user')->group(function() {
-    Route::get('/', [UserController::class, 'index']);
+    Route::post('/', [UserController::class, 'index']);
     Route::get('/{id}', [UserController::class, 'show'])->where('id', '[0-9a-fA-F\-]+');
 });

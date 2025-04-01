@@ -20,11 +20,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $Users = User::all()->toArray();
+        $params = $request->all();
+        $data = $this->userService->getIndex($params);
 
-        return response()->json($Users);
+        return response()->json($data);
     }
 
     public function login(Request $request)
@@ -42,7 +43,7 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $data = $request->all();
-        $User = $this->userService->create(User::class, $data);
+        $User = $this->userService->register($data);
 
         return response()->json([
             'message' => 'Success',
