@@ -13,6 +13,9 @@ use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
+    public $incrementing = false;
+    // protected $keyType = 'string';
+
     use HasFactory, Notifiable;
 
     protected static function boot()
