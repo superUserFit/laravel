@@ -2,7 +2,7 @@
 
 namespace Routes\User;
 
-use App\Http\Controllers\User\UserController;
+use App\Domains\User\Controller\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -11,4 +11,5 @@ Route::post('/login', [UserController::class, 'login'])->withoutMiddleware('auth
 
 Route::middleware('auth.my_middleware')->prefix('user')->group(function() {
     Route::get('/', [UserController::class, 'index']);
+    Route::get('/{id}', [UserController::class, 'show'])->where('id', '[0-9a-fA-F\-]+');
 });

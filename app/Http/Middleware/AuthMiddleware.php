@@ -30,7 +30,7 @@ class AuthMiddleware
 
         $User = User::where(['username' => $username])->first();
 
-        if(!empty($User) || $User->access_token != $access_token) {
+        if(empty($User) || $User->validateAccessToken($access_token)) {
             return Helpers::ErrorException('Unauthorized user', 401);
         }
 
