@@ -4,12 +4,15 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-use App\Helpers\Helpers;
 use App\Domains\User\Model\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
+
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpFoundation\Response;
+
 
 class AuthMiddleware
 {
@@ -22,7 +25,7 @@ class AuthMiddleware
     {
         $authorizationHeader = $request->headers->get('Authorization');
         if(empty($authorizationHeader)) {
-            return Helpers::ErrorException('Missing Authorization header', 400);
+            throw new BadRequestHttpException('Missing Authorization header', null, 400);
         }
 
         $encodedCredentials = substr($authorizationHeader, 6);

@@ -25,7 +25,7 @@ class UserController extends Controller
         $params = $request->all();
         $data = $this->userService->getIndex($params);
 
-        return response()->json($data);
+        return $this->response($data);
     }
 
     public function login(Request $request)
@@ -33,7 +33,7 @@ class UserController extends Controller
         $data = $request->all();
         $user = $this->userService->login($data);
 
-        return response()->json([
+        return $this->response([
             'message' => 'Login Successful',
             'data' => $user
         ]);
@@ -45,7 +45,7 @@ class UserController extends Controller
         $data = $request->all();
         $User = $this->userService->register($data);
 
-        return response()->json([
+        return $this->response([
             'message' => 'Success',
             'data' => $User
         ]);
@@ -64,7 +64,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $User = User::findOrFail($id);
+        $User = $this->userService->getUser($id);
         return response()->json([
             'data' => $User
         ]);
